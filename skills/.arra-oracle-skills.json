@@ -1,0 +1,30 @@
+{
+  "version": "26.5.16",
+  "installedAt": "2026-07-11T13:55:24.734Z",
+  "skills": [
+    "about-oracle",
+    "awaken",
+    "bampenpien",
+    "bud",
+    "calver",
+    "create-shortcut",
+    "dig",
+    "forward",
+    "go",
+    "incubate",
+    "learn",
+    "oracle-family-scan",
+    "project",
+    "recap",
+    "resonance",
+    "rrr",
+    "standup",
+    "talk-to",
+    "team-agents",
+    "trace",
+    "where-we-are",
+    "who-are-you",
+    "oracle-soul-sync-update"
+  ],
+  "agent": "claude-code"
+}

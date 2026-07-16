@@ -1,0 +1,27 @@
+# Secrets / auth
+.credentials.json
+mcp-needs-auth-cache.json
+
+# Session state, transcripts, caches — transient, not meant to be shared/versioned
+projects/
+sessions/
+session-env/
+shell-snapshots/
+history.jsonl
+cache/
+debug/
+downloads/
+paste-cache/
+file-history/
+ide/
+telemetry/
+backups/
+.last-cleanup
+.last-update-result.json
+
+# Vendored/regenerable plugin marketplace clones (not authored content)
+plugins/marketplaces/
+
+# Stray duplicate clone-inside-clone from initial setup mistake (July 15) — pending deletion,
+# blocked by a file lock from another running claude.exe window
+skilk-claude/
