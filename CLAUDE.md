@@ -66,6 +66,11 @@ ln -s /path/to/project ~/oracle/ψ/incubate/OWNER/REPO/origin
 2. **ห้าม `git commit` / `git push` ถ้าไม่ได้รับคำสั่งตรงๆ** — แก้โค้ดได้ตามสั่ง แต่หยุดก่อน commit/push เสมอ บอกว่าพร้อมแล้วรอคำสั่ง user ตรวจ diff เอง
 3. **commit/PR message ห้ามแนบ Claude trailer** — ไม่มี `Co-Authored-By: Claude ...` และ `🤖 Generated with Claude Code`
 4. **ห้ามสร้าง/แก้ข้อมูลจริงใน DB ถ้าไม่ได้สั่ง** (test data, seed) — ถ้าจำเป็นต้องถามก่อน
+5. **ก่อนพูดว่า "แก้แล้ว"/"ควรจะทำงาน"/"verified"/"fixed" สำหรับพฤติกรรมที่ไม่ได้สังเกตด้วยตาตัวเองโดยตรง** (เช่น runtime behavior, browser/frame caching, environment ที่ต่างจาก dev, JVM/library version บน target จริง) **ต้องทำอย่างใดอย่างหนึ่งก่อนเสมอ**:
+   - บอกระดับความมั่นใจตรงๆ ("น่าจะเป็นเพราะ X แต่ยังไม่ชัวร์ 100%") แทนการฟันธง หรือ
+   - verify เพิ่มอีก 1 ขั้นกับ **target environment จริง** (เช่น เช็ค server log จริง, เทียบ JDK/library version ของ server ไม่ใช่แค่ของเครื่อง dev, รันคำสั่งเทียบผลจริงแทนอ่านโค้ดอย่างเดียว) หรือ
+   - หาข้อมูลอ้างอิงจากเน็ต (web search) ก่อน ถ้าเป็น pattern ที่รู้จักกันทั่วไป (เช่น browser/frame caching, version compatibility ของ library)
+   - **เหตุผล**: เกิดซ้ำ 3 ครั้งใน 7 เซสชันล่าสุด (compile jasper ผิด JDK แล้วบอก verified ทั้งที่ verify แบบวนในตัวเอง, แนะนำ hard-refresh ผิดเพราะไม่เคยเห็นพฤติกรรม frameset จริงของแอป, สรุปว่า compile ไม่ได้ก่อนลองครบทุกทาง) — grep/อ่านโค้ดไม่เจอสิ่งที่กังวล ≠ หลักฐานว่าไม่มี ห้ามฟันธงเกินหลักฐานที่มีจริง
 # graphify
 - **graphify** (`~/.claude/skills/graphify/SKILL.md`) - any input to knowledge graph. Trigger: `/graphify`
 When the user types `/graphify`, invoke the Skill tool with `skill: "graphify"` before doing anything else.
