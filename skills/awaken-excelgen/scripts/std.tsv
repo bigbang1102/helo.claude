@@ -1,0 +1,13 @@
+8	businessentity	นิติบุคคล	Reference	ข้อมูลหลัก	businessentity	businessentity	General	ประเภทรายการ
+9	movementtype	ประเภทรายการ	Reference	ข้อมูลหลัก	movementtype	movementtype	General	ประเภทรายการ
+10	document_category	ประเภทรายการย่อย	Reference	ข้อมูลหลัก	documentcategory	document_category	General	ประเภทรายการ
+11	cus_code	รหัสลูกค้า	StringM	ข้อมูลหลัก	none	cus_code	General	รายละเอียดเอกสาร
+12	cus_name	ชื่อลูกค้า	StringXL	ข้อมูลหลัก	none	cus_name	General	รายละเอียดเอกสาร
+13	receive_by	ผู้รับเอกสาร	Reference	ข้อมูลหลัก	employee	receive_by	General	รายละเอียดเอกสาร
+14	receive_date	วันที่รับเอกสาร	Date	ข้อมูลหลัก	none	receive_date	General	รายละเอียดเอกสาร
+15	description	รายละเอียด	textmid	ข้อมูลหลัก	none	description	General	รายละเอียดเอกสาร
+16	flow_refdoctype	ประเภทเอกสารอ้างอิง	StringS	ข้อมูลภายใน	none	flow_refdoctype	Internal	ข้อมูลอ้างอิง
+17	flow_refdocno	เลขที่เอกสารอ้างอิง	StringM	ข้อมูลภายใน	none	flow_refdocno	Internal	ข้อมูลอ้างอิง
+18	exists_txno	เลขที่เอกสารที่เคยสร้าง	StringM	ข้อมูลภายใน	none	exists_txno	Internal	ข้อมูลอ้างอิง
+19	parent_role_owner	สิทธิ์เอกสารต้นทาง	StringL	ข้อมูลภายใน	none	parent_role_owner	Internal	ข้อมูลอ้างอิง
+20	role_owner	สิทธิ์ผู้เพิ่มทะเบียน	StringL	ข้อมูลภายใน	none	role_owner	Internal	ข้อมูลอ้างอิง

@@ -1,7 +1,8 @@
 {
-  "model": "sonnet",
+  "model": "opus[1m]",
   "autoUpdatesChannel": "latest",
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
-  "theme": "dark"
+  "theme": "dark",
+  "effortLevel": "high"
 }
