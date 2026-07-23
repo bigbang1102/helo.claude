@@ -4,5 +4,6 @@
   "tui": "fullscreen",
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark",
-  "effortLevel": "high"
+  "effortLevel": "high",
+  "skipWorkflowUsageWarning": true
 }

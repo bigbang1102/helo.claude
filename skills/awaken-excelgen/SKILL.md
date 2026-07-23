@@ -12,7 +12,7 @@ Skill สำหรับงาน **Excel gen เท่านั้น** — เ
 
 โครงคงที่อยู่ในไฟล์นี้ · ความรู้ต่อเอกสาร (BDNAME/quirk/สถานะ) สะสมใน **`casebook.md`** (ข้างไฟล์นี้)
 
-> **สถานะ: ผ่านงานจริง 4 เอกสาร (CAC, CJ, CA, Lead) — 2026-07-21..22** ทุกข้อในเช็คลิสต์ล้วนมาจากที่เคยพลาดจริง
+> **สถานะ: ผ่านงานจริง 5 เอกสาร (CAC, CJ, CA, Lead, PDE/POS DayEnd) — 2026-07-21..23** ทุกข้อในเช็คลิสต์ล้วนมาจากที่เคยพลาดจริง
 
 ---
 
@@ -20,10 +20,18 @@ Skill สำหรับงาน **Excel gen เท่านั้น** — เ
 
 **อ่านให้ครบก่อนลงมือทุกครั้ง** — ทุกบรรทัดคือบั๊กจริงจากเซสชัน 2026-07-21..22
 
+### ⛔⛔ 0. ยืนยัน "spec ที่ถูกต้อง" ก่อนลงมือ — อย่าหลงประเด็น (บทเรียนแพงสุด POS OB 2026-07-22)
+- [ ] **ถ้ามี spec/ไฟล์ layout มากกว่า 1 อัน → เทียบก่อนว่าขัดกันไหม แล้ว "ถามให้ชัดว่าอันไหนเป็นหลัก" ก่อนเริ่มงานใหญ่** — POS OB มี 2 spec (`เรียงฟิลด์_V2_grid` กับ `ERP_POS_OB_ChangeOB`) เรียง master **ต่างกันมาก** (businessentity ขึ้นก่อน vs movementtype ขึ้นก่อน, default คนละที่) · ผมเลือก spec ที่ user ส่งทีหลังโดยไม่เทียบ → **ทำ reorder 89 field + set_display + item col M เสร็จหมด แล้ว user บอกผิด spec ต้อง redo ทั้งก้อน** (เสียเวลามหาศาล)
+- [ ] **งาน reorder = irreversible + แพง** → ลงมือเฉพาะเมื่อ spec ชัด 100% · ถ้า input 2 อันขัดกัน อย่าเดาว่าอันล่าสุด = อันจริง · ใช้ AskUserQuestion ยืนยันก่อน
+- [ ] เทียบ spec หลายอันที่จุดที่ต่างกันชัด: field แรกของแท็บแรก · การวาง default · field ที่มี/ไม่มี (เช่น businessentity) · ชื่อ/ลำดับแท็บ
+
 ### A. โครงไฟล์ / การเรียง field
 - [ ] **`advance_usecase` เป็นสูตร ห้ามเขียนทับ** — เรียงที่ `standard_usecase` + ย้าย constrain/other/formula + adv c23/c30 เท่านั้น
 - [ ] **offset ไม่เท่ากันทุกไฟล์** — อ่าน `.Formula` (ไม่ใช่ `.Text`) ของ adv แถวแรกหา offset จริง (CAC adv=std+36 · Formintent/Formloan adv=std+22, constrain=std−1, formula=std−2) · `convert2.ps1` มี offset guard throw ถ้าไม่ตรง
-- [ ] **สูตร `#field-subtab#` (adv c31) มักมีไม่ครบทุกแถว** — เพิ่ม field แล้วต้องเติม `=standard_usecase!H<r−offset>` เอง + `ClearContents` แถวที่เกิน (ไม่งั้นโชว์ `0`)
+- [ ] **ห้ามสมมติคอลัมน์ของ `#field-subtab#` จากไฟล์อื่น** — อ่านสูตร adv c31 ของไฟล์นั้นก่อนทุกครั้ง (เช่น ITX อ่าน `standard_usecase!H`, PDE อ่าน col M) แล้วเขียน/verify ตามสูตรจริง
+- [ ] **สูตร `#field-subtab#` (adv c31) มักมีไม่ครบทุกแถว** — เพิ่ม field แล้วต้องเติมสูตรอ้างอิงคอลัมน์จริงของไฟล์เอง + `ClearContents` แถวที่เกิน (ไม่งั้นโชว์ `0`)
+- [ ] **เอกสารที่มี Item ต้องตรวจ `#dependent-table#` ทุก slot** — ตรวจทั้งสูตรและ cached result: item จริงต้องได้ marker `#dependent-table#` และชื่อ `<MASTER><ITEM>_TABLE`; ถ้า cache ว่าง redTools จะไม่สร้าง `DeleteItemForm...` แม้ `set_display` และข้อมูล DB จะครบ
+- [ ] **`#new-line#=true` หมายถึงตัดแถว “หลัง” field นั้น** — ถ้า layout ใช้ 4 คอลัมน์และจำนวน field ลงตัว ให้ปล่อยว่างเพื่อใช้ natural wrap; ห้ามใส่ที่ field แรกของแถวใหม่
 - [ ] **default-field ครบ 7 ตัว** (TXDATE,REFDOCNO,REFDOCDATE,TXNO,STATUS,TXTYPE,REMARK) — ตัวที่ตกจะโผล่แท็บ "เอกสาร" เกิน (ปกติ TXTYPE แปะ field สุดท้ายของข้อมูลอ้างอิง)
 - [ ] **`#new-line#`** — บรรทัด spec ที่ field แรกไม่ใช่ตัวเริ่ม subtab ต้องมาร์คเอง (ตระกูล Formintent/Formloan: `exists_txno` = `true`)
 
@@ -48,6 +56,29 @@ Skill สำหรับงาน **Excel gen เท่านั้น** — เ
 ### F. verify ก่อนบอกว่าเสร็จ
 - [ ] เทียบ marker ทีละ field เทียบต้นฉบับ (ไม่มี field หาย/marker เพี้ยน)
 - [ ] **behavior บน target จริงยังไม่เห็นด้วยตา → บอกระดับความมั่นใจ อย่าฟันธง** (ดู [[feedback-verify-uncertainty-before-asserting]])
+
+### G. ⛔ READONLY ระบบใหม่ — ใช้ `wfdisplay_displayattributeconf` เป็นหลัก
+- [ ] ระบบใหม่ใช้ `wfdisplay_displayattributeconf` เป็นแหล่งหลักของ readonly และ Excel กำหนดค่าชุดเดียวกันผ่าน sheet `set_display`
+- [ ] รูปแบบ master readonly:
+  ```sql
+  SELECT *
+  FROM wfdisplay_displayattributeconf
+  WHERE BDNAME='<BDNAME>'
+    AND ITEM_NAME='master'
+    AND ATTRIBUTE_TYPE='readonly';
+  ```
+- [ ] `FIELDLIST` เป็นชื่อ field คั่นด้วย comma โดยไม่เติม `Code` เองนอกจากชื่อ field จริงมี `Code`; ตัวอย่าง CJ:
+  ```sql
+  CJ | master | readonly |
+  flow_refdoctype,flow_refdocno,exists_txno,parent_role_owner,role_owner
+  ```
+- [ ] ต้องการเพิ่ม/ลด readonly ให้แก้ `FIELDLIST` ของแถวนี้ หรือแก้ sheet `set_display` แล้ว Generate; ไม่ต้องสร้าง `wfinputvalidation` ใหม่สำหรับ readonly แบบคงที่ของระบบใหม่
+- [ ] `wfinputvalidationitem` เป็นกลไกเดิม/ใช้กับ validation condition เฉพาะกรณี ไม่ใช่แหล่งหลักของ static readonly ในระบบใหม่ อย่าแนะนำให้ insert ที่ตารางนี้ก่อนตรวจ `wfdisplay_displayattributeconf`
+- [ ] ห้ามมี readonly สองแหล่งซ้ำกันโดยไม่จำเป็น เพราะภายหลังแก้ `FIELDLIST` แล้วอาจยังติด readonly จาก `wfinputvalidationitem`
+- [ ] หลังแก้ DB โดยตรงไม่ต้อง Generate Excel ใหม่ แต่ถ้า Generate ไฟล์เดิมภายหลัง ค่าใน `set_display` อาจเขียนทับ DB จึงต้องซิงก์ Excel ให้ตรงกับค่าที่ต้องการ
+- [ ] verification: query แถว attribute จาก DB จริง → เปิดหน้าสร้างใหม่ → ตรวจว่าฟิลด์เหลือ caption/ค่าและไม่มี input control ก่อนสรุปว่าแก้แล้ว
+
+**บทเรียน CJ (ยืนยันโดย user 2026-07-23):** ระบบใหม่ใช้ `wfdisplay_displayattributeconf` แถว `CJ/master/readonly` โดย `FIELDLIST=flow_refdoctype,flow_refdocno,exists_txno,parent_role_owner,role_owner` และ UI เปลี่ยนเป็น readonly ได้จริง; ใช้แนวทางนี้เป็นหลักแทน `wfinputvalidationitem`.
 
 ---
 
