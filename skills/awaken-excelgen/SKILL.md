@@ -296,3 +296,17 @@ if (earlyFtList && earlyFtList.querySelectorAll('td[onclick*="setSwapActiveTab"]
 - ห้าม commit/push/restart server เอง (กฎ global) · ไม่แก้ DB จริงถ้าไม่ได้สั่ง
 - **ต้นฉบับใน `Transaction\` ห้ามแก้ทับ** — แปลงลง `new_Transaction\` เสมอ
 - ก่อนฟันธงสาเหตุใดๆ ให้ยืนยันกับ target จริง (233/137) ไม่ใช่ clone ในเครื่อง — ดู [[2026-07-21_reread-own-evidence-before-asserting]]
+# Runtime BDNAME alias — ตรวจทุกครั้งก่อนสรุปว่า readonly ผิด
+
+- `wfdisplay_displayattributeconf.BDNAME` ต้องตรงกับค่า `requestName`/`txType` ที่หน้า runtime ใช้จริง ไม่ใช่อาศัย BDNAME จาก spec หรือ workflow mapping อย่างเดียว
+- ตรวจใน Browser Console ก่อนแก้ DB:
+  ```javascript
+  console.table(
+    [...document.querySelectorAll('input')]
+      .filter(x => ['requestName','txType','useWorkFlow'].includes(x.id))
+      .map(x => ({ id:x.id, value:x.value }))
+  );
+  ```
+- ถ้า create page ใช้ชื่อโมดูลเป็น `requestName` แต่ `txType` ยังว่าง ให้มี readonly row สำหรับ runtime request name เพิ่มจาก BDNAME ย่อ โดยใช้ FIELDLIST ชุดเดียวกัน
+- ตัวอย่างที่ยืนยันจาก UI จริง: Change Doc POSOB ใช้ทั้ง `CPOSOB` และ alias `changeposoutbounddelivery`; ถ้ามีเฉพาะ `CPOSOB` readonly จะไม่ทำงานบนหน้า Create
+- ห้ามแก้ `wfinputvalidation`/`wfinputvalidationitem` เพื่อเดาสาเหตุก่อนตรวจ `requestName`, `txType` และชื่อ input จริงจาก DOM

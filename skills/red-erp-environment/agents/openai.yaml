@@ -1,0 +1,4 @@
+interface:
+  display_name: "Red ERP Environment"
+  short_description: "Connect safely to Red ERP databases and remote machines"
+  default_prompt: "Use the private Red ERP environment configuration to connect to the correct database or remote machine safely."
